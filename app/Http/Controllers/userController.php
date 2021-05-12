@@ -38,6 +38,27 @@ class userController extends Controller
         
     }
     public function doLogin(Request $request){
+        $validated = $request->validate([
+            'email' => 'required|email|max:255',
+            'password' => 'required|string|max:100|min:8',
+        ]);
+        $user = new user;
+        $user = user::where('gmail', '=', $request->email)->first();
+        if($user !=null)
+        {
+            $username = $user->first_name.$user->last_name;
+            if(Hash::check($request->password, $user->password))
+                    return redirect('/')->with('username',$username);
+                else 
+                    return redirect('/login')->with('warm', 'Mật khẩu không đúng');
+        }else{
+            return redirect('/login')->with('warm', 'Tài khoản chưa đăng kí');
+        }
+    }
+
+    public function doLogout(Request $request){
+        $request->session()->forget('username');
+        return view("pages.index");
         
     }
 }

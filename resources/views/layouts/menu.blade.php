@@ -42,11 +42,18 @@
                 </div>
                 <div class="navbar-nav ml-auto">
                     <div class="nav-item dropdown">
+                        @if(session('username'))
+                        <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{session('username')}}</a>
+                        <div class="dropdown-menu">
+                            <a href="{{route('doLogout')}}" class="dropdown-item">Logout</a>
+                        </div>
+                        @else
                         <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">User Account</a>
                         <div class="dropdown-menu">
                             <a href="{{route('login')}}" class="dropdown-item">Login</a>
                             <a href="{{route('register')}}" class="dropdown-item">Register</a>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
